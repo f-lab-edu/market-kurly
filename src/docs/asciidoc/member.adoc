@@ -3,3 +3,12 @@
 
 === 테스트
 operation::rest-docs-test/rest-docs-test[]
+
+=== 중복 체크
+operation::member-api-controller-test/check-duplication-by-key-test[snippets='http-request,http-response,request-body,request-fields,response-body,response-fields']
+
+=== 회원 가입
+operation::member-api-controller-test/join-test[snippets='http-request,http-response,request-body,request-fields']
+
+=== 회원 정보
+operation::member-api-controller-test/member-test[snippets='http-request,http-response,response-body,response-fields']
