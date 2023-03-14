@@ -1,5 +1,0 @@
-== 회원(Member)
-회원에 대한 기능을 제공합니다.
-
-=== 테스트
-operation::rest-docs-test/rest-docs-test[]

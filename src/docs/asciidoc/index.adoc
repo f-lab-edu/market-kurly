@@ -12,6 +12,6 @@ API 문서입니다.
 == API
 
 //회원
-include::member.adoc[]
+include::user.adoc[]
 
 //상품
