@@ -15,6 +15,7 @@ public class UsersController {
 
   @PostMapping
   public UsersResponseDto create(@RequestBody SignUpRequestDto dto) {
+
     ArrayList<AddressDto> addresses = new ArrayList<>();
     addresses.add(new AddressDto(true, "", "", "", ""));
     return new UsersResponseDto("", "", "", addresses);

@@ -51,7 +51,17 @@ public class Users extends BaseTimeEntity {
   @OneToMany(mappedBy = "users", cascade = ALL, orphanRemoval = true)
   private List<UsersAddresses> usersAddresses = new ArrayList<>();
 
-  public Users(String nickname, String status, RoleType role, String grade, String name, String email, String mobileNumber, LocalDate birthday, String gender, String password, List<UsersAddresses> usersAddresses) {
+  public Users(String nickname,
+               String status,
+               RoleType role,
+               String grade,
+               String name,
+               String email,
+               String mobileNumber,
+               LocalDate birthday,
+               String gender,
+               String password,
+               List<UsersAddresses> usersAddresses) {
     this.nickname = nickname;
     this.status = status;
     this.role = role;

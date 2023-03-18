@@ -48,7 +48,16 @@ class UsersControllerTest {
   @Test
   @DisplayName("회원가입 API를 호출한다")
   void create() throws Exception {
-    SignUpRequestDto requestDto = new SignUpRequestDto("회원아이디", "회원명", "이메일", "휴대폰번호", "생일", "성별", "비밀번호", "우편번호", "주소", "상세주소");
+    SignUpRequestDto requestDto = new SignUpRequestDto("회원아이디",
+                                                       "회원명",
+                                                       "이메일",
+                                                       "휴대폰번호",
+                                                       "생일",
+                                                       "성별",
+                                                       "비밀번호",
+                                                       "우편번호",
+                                                       "주소",
+                                                       "상세주소");
 
     mockMvc.perform(post("/v1/users")
                             .contentType(MediaType.APPLICATION_JSON)

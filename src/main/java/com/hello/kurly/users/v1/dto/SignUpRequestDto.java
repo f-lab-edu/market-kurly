@@ -20,7 +20,16 @@ public class SignUpRequestDto {
   private String address;
   private String addressDetail;
 
-  public SignUpRequestDto(String nickname, String name, String email, String mobileNumber, String birthday, String gender, String password, String zipCode, String address, String addressDetail) {
+  public SignUpRequestDto(String nickname,
+                          String name,
+                          String email,
+                          String mobileNumber,
+                          String birthday,
+                          String gender,
+                          String password,
+                          String zipCode,
+                          String address,
+                          String addressDetail) {
     this.nickname = nickname;
     this.name = name;
     this.email = email;
