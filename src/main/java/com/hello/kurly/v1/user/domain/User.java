@@ -18,7 +18,8 @@ import static javax.persistence.CascadeType.ALL;
 @Entity
 public class User extends BaseTimeEntity {
 
-  @Id @GeneratedValue(strategy = GenerationType.AUTO)
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "user_id")
   private Long id; //pk
 

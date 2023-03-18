@@ -47,11 +47,11 @@ public class RestDocsTest {
   void restDocsTest() throws Exception {
 
     mockMvc.perform(get("/"))
-            .andExpect(status().isNotFound())
-            .andDo(
-                    restDocs.document(
-                            //add request and response fields
-                    )
-            );
+           .andExpect(status().isNotFound())
+           .andDo(
+                   restDocs.document(
+                           //add request and response fields
+                   )
+           );
   }
 }

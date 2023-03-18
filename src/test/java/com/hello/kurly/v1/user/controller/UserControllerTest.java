@@ -53,37 +53,37 @@ class UserControllerTest {
     SignUpRequestDto requestDto = new SignUpRequestDto("회원아이디", "회원명", "이메일", "휴대폰번호", "생일", "성별", "비밀번호", "우편번호", "주소", "상세주소");
 
     mockMvc.perform(post("/v1/users")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(new ObjectMapper().writeValueAsString(requestDto)))
-            .andExpect(status().isOk())
-            .andDo(
-                    restDocs.document(
-                            requestFields(
-                                    fieldWithPath("nickname").description("회원아이디"),
-                                    fieldWithPath("name").description("회원명"),
-                                    fieldWithPath("email").description("이메일"),
-                                    fieldWithPath("mobileNumber").description("휴대폰번호"),
-                                    fieldWithPath("birthday").description("생일"),
-                                    fieldWithPath("gender").description("성별"),
-                                    fieldWithPath("password").description("비밀번호"),
-                                    fieldWithPath("zipCode").description("우편번호"),
-                                    fieldWithPath("address").description("주소"),
-                                    fieldWithPath("addressDetail").description("상세주소")
-                            ),
-                            responseFields(
-                                    fieldWithPath("nickname").description("회원아이디"),
-                                    fieldWithPath("grade").description("등급"),
-                                    fieldWithPath("name").description("회원명"),
-                                    fieldWithPath("addresses").description("배송지목록")
-                            ).andWithPrefix("addresses.[].",
-                                    fieldWithPath("baseDeliveryAddress").description("기본배송지여부"),
-                                    fieldWithPath("deliveryPolicy").description("배송정책"),
-                                    fieldWithPath("zipCode").description("우편번호"),
-                                    fieldWithPath("address").description("기본주소"),
-                                    fieldWithPath("addressDetail").description("상세주소")
-                            )
-                    )
-            );
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(new ObjectMapper().writeValueAsString(requestDto)))
+           .andExpect(status().isOk())
+           .andDo(
+                   restDocs.document(
+                           requestFields(
+                                   fieldWithPath("nickname").description("회원아이디"),
+                                   fieldWithPath("name").description("회원명"),
+                                   fieldWithPath("email").description("이메일"),
+                                   fieldWithPath("mobileNumber").description("휴대폰번호"),
+                                   fieldWithPath("birthday").description("생일"),
+                                   fieldWithPath("gender").description("성별"),
+                                   fieldWithPath("password").description("비밀번호"),
+                                   fieldWithPath("zipCode").description("우편번호"),
+                                   fieldWithPath("address").description("주소"),
+                                   fieldWithPath("addressDetail").description("상세주소")
+                           ),
+                           responseFields(
+                                   fieldWithPath("nickname").description("회원아이디"),
+                                   fieldWithPath("grade").description("등급"),
+                                   fieldWithPath("name").description("회원명"),
+                                   fieldWithPath("addresses").description("배송지목록")
+                           ).andWithPrefix("addresses.[].",
+                                           fieldWithPath("baseDeliveryAddress").description("기본배송지여부"),
+                                           fieldWithPath("deliveryPolicy").description("배송정책"),
+                                           fieldWithPath("zipCode").description("우편번호"),
+                                           fieldWithPath("address").description("기본주소"),
+                                           fieldWithPath("addressDetail").description("상세주소")
+                           )
+                   )
+           );
   }
 
   @Test
