@@ -1,4 +1,4 @@
-package com.hello.kurly.v1.user.dto;
+package com.hello.kurly.users.v1.dto;
 
 public enum ExistTarget {
 

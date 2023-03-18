@@ -1,4 +1,4 @@
-package com.hello.kurly.v1.user.domain;
+package com.hello.kurly.users.domain;
 
 import com.hello.kurly.common.model.BaseTimeEntity;
 import lombok.AccessLevel;
@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,12 +17,11 @@ import static javax.persistence.CascadeType.ALL;
 @Getter
 @Table(name = "users")
 @Entity
-public class User extends BaseTimeEntity {
+public class Users extends BaseTimeEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(name = "user_id")
-  private Long id; //pk
+  private BigInteger id; //pk
 
   @Column(nullable = false, length = 20, unique = true)
   private String nickname; //회원아이디
@@ -48,10 +48,10 @@ public class User extends BaseTimeEntity {
 
   private String password; //비밀번호
 
-  @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
-  private List<UserAddress> userAddresses = new ArrayList<>();
+  @OneToMany(mappedBy = "users", cascade = ALL, orphanRemoval = true)
+  private List<UsersAddresses> usersAddresses = new ArrayList<>();
 
-  public User(String nickname, String status, RoleType role, String grade, String name, String email, String mobileNumber, LocalDate birthday, String gender, String password, List<UserAddress> userAddresses) {
+  public Users(String nickname, String status, RoleType role, String grade, String name, String email, String mobileNumber, LocalDate birthday, String gender, String password, List<UsersAddresses> usersAddresses) {
     this.nickname = nickname;
     this.status = status;
     this.role = role;
@@ -62,6 +62,6 @@ public class User extends BaseTimeEntity {
     this.birthday = birthday;
     this.gender = gender;
     this.password = password;
-    this.userAddresses = userAddresses;
+    this.usersAddresses = usersAddresses;
   }
 }

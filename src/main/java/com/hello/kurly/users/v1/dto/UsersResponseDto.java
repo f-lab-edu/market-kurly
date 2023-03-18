@@ -1,4 +1,4 @@
-package com.hello.kurly.v1.user.dto;
+package com.hello.kurly.users.v1.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,14 +10,14 @@ import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor(access = PRIVATE)
 @Getter
-public class UserResponseDto {
+public class UsersResponseDto {
 
   private String nickname;
   private String grade;
   private String name;
   private List<AddressDto> addresses = new ArrayList<>();
 
-  public UserResponseDto(String nickname, String grade, String name, List<AddressDto> addresses) {
+  public UsersResponseDto(String nickname, String grade, String name, List<AddressDto> addresses) {
     this.nickname = nickname;
     this.grade = grade;
     this.name = name;

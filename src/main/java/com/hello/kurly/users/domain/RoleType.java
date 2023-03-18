@@ -1,4 +1,4 @@
-package com.hello.kurly.v1.user.domain;
+package com.hello.kurly.users.domain;
 
 public enum RoleType {
 

@@ -1,9 +1,10 @@
-package com.hello.kurly.v1.user.controller;
+package com.hello.kurly.users.v1.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hello.kurly.RestDocsConfiguration;
-import com.hello.kurly.v1.user.dto.SignUpRequestDto;
+import com.hello.kurly.users.v1.dto.SignUpRequestDto;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,8 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @MockBean(JpaMetamodelMappingContext.class)
 @Import(RestDocsConfiguration.class)
 @ExtendWith(RestDocumentationExtension.class)
-@WebMvcTest(UserController.class)
-class UserControllerTest {
+@WebMvcTest(UsersController.class)
+class UsersControllerTest {
 
   @Autowired
   private MockMvc mockMvc;
@@ -48,8 +49,8 @@ class UserControllerTest {
   }
 
   @Test
-  void 회원가입() throws Exception {
-
+  @DisplayName("회원가입 API를 호출한다")
+  void create() throws Exception {
     SignUpRequestDto requestDto = new SignUpRequestDto("회원아이디", "회원명", "이메일", "휴대폰번호", "생일", "성별", "비밀번호", "우편번호", "주소", "상세주소");
 
     mockMvc.perform(post("/v1/users")
@@ -87,22 +88,22 @@ class UserControllerTest {
   }
 
   @Test
-  void getUser() throws Exception {
+  void getUser() {
     //TODO 회원정보 조회
   }
 
   @Test
-  void updateProfile() throws Exception {
+  void updateProfile() {
     // TODO 회원정보 수정
   }
 
   @Test
-  void getMe() throws Exception {
+  void getMe() {
     // TODO 내정보 조회
   }
 
   @Test
-  void isExistTarget() throws Exception {
+  void isExistTarget() {
     // TODO 존재 여부 확인
   }
 }
