@@ -1,10 +1,12 @@
 package com.hello.kurly.users.domain;
 
 import com.hello.kurly.common.exception.UsersNotFoundException;
+import com.hello.kurly.config.AuditConfig;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
+@Import(AuditConfig.class)
 @DataJpaTest
 class UsersRepositoryTest {
 

@@ -1,4 +1,4 @@
-package com.hello.kurly;
+package com.hello.kurly.config;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -8,7 +8,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 
 @TestConfiguration
-public class RestDocsConfiguration {
+public class RestDocsConfig {
 
   @Bean
   public RestDocumentationResultHandler restDocumentationResultHandler() {

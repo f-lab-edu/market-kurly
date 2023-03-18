@@ -1,7 +1,7 @@
 package com.hello.kurly.users.v1.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hello.kurly.RestDocsConfiguration;
+import com.hello.kurly.config.RestDocsConfig;
 import com.hello.kurly.users.v1.dto.SignUpRequestDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -9,9 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
@@ -26,8 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
-@MockBean(JpaMetamodelMappingContext.class)
-@Import(RestDocsConfiguration.class)
+@Import(RestDocsConfig.class)
 @ExtendWith(RestDocumentationExtension.class)
 @WebMvcTest(UsersController.class)
 class UsersControllerTest {
