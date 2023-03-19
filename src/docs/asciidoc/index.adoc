@@ -7,11 +7,12 @@
 :source-highlighter: highlightjs
 
 == 개요
+
 API 문서입니다.
 
 == API
 
 //회원
-include::member.adoc[]
+include::users.adoc[]
 
 //상품

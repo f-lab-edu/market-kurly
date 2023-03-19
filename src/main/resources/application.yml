@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url:
+    username:
+    password:
+    driver-class-name:
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+
+  logging.level:
+    org.hibernate.SQL: debug
+
+  security:
+    user:
+      name: user
+      password: 1234
+

@@ -1,6 +1,6 @@
 package com.hello.kurly.restdocs;
 
-import com.hello.kurly.RestDocsConfiguration;
+import com.hello.kurly.config.RestDocsConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
-@Import(RestDocsConfiguration.class)
+@Import(RestDocsConfig.class)
 @ExtendWith(RestDocumentationExtension.class)
 @WebMvcTest
 public class RestDocsTest {
@@ -42,12 +42,13 @@ public class RestDocsTest {
 
   @Test
   void restDocsTest() throws Exception {
+
     mockMvc.perform(get("/"))
-            .andExpect(status().isNotFound())
-            .andDo(
-                    restDocs.document(
-                            //add request and response fields
-                    )
-            );
+           .andExpect(status().isNotFound())
+           .andDo(
+                   restDocs.document(
+                           //add request and response fields
+                   )
+           );
   }
 }
