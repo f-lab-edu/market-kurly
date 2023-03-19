@@ -11,9 +11,8 @@ import org.springframework.context.annotation.Import;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
-import java.time.LocalDate;
-import java.util.ArrayList;
 
+import static com.hello.kurly.factory.UsersFactory.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
@@ -26,20 +25,6 @@ class UsersRepositoryTest {
 
   @PersistenceContext
   EntityManager em;
-
-  Users createUser() {
-    return new Users("nickname1",
-                     "status1",
-                     RoleType.ROLE_NORMAL,
-                     "grade1",
-                     "name1",
-                     "email1",
-                     "mobileNUmber1",
-                     LocalDate.now(),
-                     "gender1",
-                     "password1",
-                     new ArrayList<>());
-  }
 
   @Test
   @DisplayName("회원아이디로 회원을 조회한다")
@@ -141,17 +126,7 @@ class UsersRepositoryTest {
 
     //given
     Users user1 = createUser();
-    Users user2 = new Users(user1.getNickname(),
-                            "status2",
-                            RoleType.ROLE_ADMIN,
-                            "grade2",
-                            "name2",
-                            "email2",
-                            "mobileNUmber2",
-                            LocalDate.now(),
-                            "gender2",
-                            "password2",
-                            new ArrayList<>());
+    Users user2 = createOtherUserWithNickname(user1.getNickname());
 
     userRepository.save(user1);
     em.flush();
@@ -171,17 +146,7 @@ class UsersRepositoryTest {
 
     //given
     Users user1 = createUser();
-    Users user2 = new Users("nickname2",
-                            "status2",
-                            RoleType.ROLE_ADMIN,
-                            "grade2",
-                            "name2",
-                            user1.getEmail(),
-                            "mobileNUmber2",
-                            LocalDate.now(),
-                            "gender2",
-                            "password2",
-                            new ArrayList<>());
+    Users user2 = createOtherUserWithEmail(user1.getEmail());
 
     userRepository.save(user1);
     em.flush();
