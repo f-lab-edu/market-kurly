@@ -58,7 +58,7 @@ erDiagram
         datetime updated_at
     }
     
-    delivery ||--|{ address : to
+    delivery ||--|{ address : with
     delivery {
         bigint id
         bigint order_id
