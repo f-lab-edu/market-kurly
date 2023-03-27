@@ -4,14 +4,19 @@ import com.hello.kurly.users.v1.dto.AddressDto;
 import com.hello.kurly.users.v1.dto.ExistTarget;
 import com.hello.kurly.users.v1.dto.SignUpRequestDto;
 import com.hello.kurly.users.v1.dto.UsersResponseDto;
+import com.hello.kurly.users.v1.service.UsersService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/users")
 public class UsersController {
+
+  private final UsersService usersService;
 
   @PostMapping
   public UsersResponseDto create(@RequestBody SignUpRequestDto dto) {
@@ -23,7 +28,8 @@ public class UsersController {
 
   @GetMapping("/{id}")
   public UsersResponseDto getUser(@PathVariable BigInteger id) {
-    return null;
+
+    return usersService.getUser(id);
   }
 
   @PutMapping("/{id}/profile")

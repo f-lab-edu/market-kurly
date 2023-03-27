@@ -1,5 +1,6 @@
 package com.hello.kurly.users.v1.dto;
 
+import com.hello.kurly.users.domain.Users;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,5 +23,16 @@ public class UsersResponseDto {
     this.grade = grade;
     this.name = name;
     this.addresses = addresses;
+  }
+
+  private UsersResponseDto(Users users) {
+    this.nickname = users.getNickname();
+    this.grade = users.getGrade();
+    this.name = users.getName();
+    this.addresses = new ArrayList<>();
+  }
+
+  public static UsersResponseDto from(Users users) {
+    return new UsersResponseDto(users);
   }
 }
