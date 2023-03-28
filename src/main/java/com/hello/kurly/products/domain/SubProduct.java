@@ -12,7 +12,7 @@ import static javax.persistence.FetchType.LAZY;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Table(name = "sub_product")
+@Table(name = "sub_products")
 @Entity
 public class SubProduct extends BaseTimeEntity {
 
@@ -21,8 +21,8 @@ public class SubProduct extends BaseTimeEntity {
   private BigInteger id; // 상품 pk
 
   @ManyToOne(fetch = LAZY)
-  @JoinColumn(name = "products_id")
-  private Products products;
+  @JoinColumn(name = "product_id")
+  private Product product;
 
   @ManyToOne(fetch = LAZY)
   @JoinColumn(name = "category_id")
@@ -57,7 +57,7 @@ public class SubProduct extends BaseTimeEntity {
   private String mainImageUrl; // 이미지 URL 주소
 
   public SubProduct(BigInteger id,
-                     Products products,
+                     Product product,
                      Category category,
                      String name,
                      String brand,
@@ -75,7 +75,7 @@ public class SubProduct extends BaseTimeEntity {
                      Boolean isExpectedPoint,
                      String mainImageUrl) {
     this.id = id;
-    this.products = products;
+    this.product = product;
     this.category = category;
     this.name = name;
     this.brand = brand;

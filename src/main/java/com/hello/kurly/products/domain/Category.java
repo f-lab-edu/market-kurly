@@ -10,7 +10,7 @@ import java.math.BigInteger;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Table(name = "category")
+@Table(name = "categories")
 @Entity
 public class Category extends BaseTimeEntity {
 

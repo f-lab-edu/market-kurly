@@ -1,7 +1,7 @@
 package com.hello.kurly.orders.domain;
 
 import com.hello.kurly.common.model.BaseTimeEntity;
-import com.hello.kurly.products.domain.Products;
+import com.hello.kurly.products.domain.Product;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,25 +22,25 @@ public class OrderProduct extends BaseTimeEntity {
   private BigInteger id;
 
   @ManyToOne(fetch = LAZY)
-  @JoinColumn(name = "orders_id")
-  private Orders orders;
+  @JoinColumn(name = "order_id")
+  private Order order;
 
   @ManyToOne(fetch = LAZY)
-  @JoinColumn(name = "products_id")
-  private Products products;
+  @JoinColumn(name = "product_id")
+  private Product product;
 
   private Integer quantity; // 수량
 
   private BigInteger productPrice; // 가격
 
   public OrderProduct(BigInteger id,
-                      Orders orders,
-                      Products products,
+                      Order order,
+                      Product product,
                       Integer quantity,
                       BigInteger productPrice) {
     this.id = id;
-    this.orders = orders;
-    this.products = products;
+    this.order = order;
+    this.product = product;
     this.quantity = quantity;
     this.productPrice = productPrice;
   }

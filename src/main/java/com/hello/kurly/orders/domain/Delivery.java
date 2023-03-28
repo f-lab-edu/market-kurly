@@ -13,7 +13,7 @@ import static javax.persistence.FetchType.LAZY;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Table(name = "delivery")
+@Table(name = "deliveries")
 @Entity
 public class Delivery extends BaseTimeEntity {
 
@@ -22,7 +22,7 @@ public class Delivery extends BaseTimeEntity {
   private BigInteger id;
 
   @OneToOne(fetch = LAZY)
-  private Orders orders;
+  private Order order;
 
   @Embedded
   private Address homeAddress;
@@ -31,11 +31,11 @@ public class Delivery extends BaseTimeEntity {
   private OrderType status; //주문상태(주문완료, 주문취소, 주문불가)
 
   public Delivery(BigInteger id,
-                  Orders orders,
+                  Order order,
                   Address homeAddress,
                   OrderType status) {
     this.id = id;
-    this.orders = orders;
+    this.order = order;
     this.homeAddress = homeAddress;
     this.status = status;
   }

@@ -17,7 +17,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @Table(name = "products")
 @Entity
-public class Products extends BaseTimeEntity {
+public class Product extends BaseTimeEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,14 +25,14 @@ public class Products extends BaseTimeEntity {
 
   @OneToOne(fetch = LAZY)
   @JoinColumn(name = "storage_id", referencedColumnName = "id")
-  private Storages storages;
+  private Storage storage;
 
   @OneToOne(fetch = LAZY)
-  @JoinColumn(name = "sellers_id", referencedColumnName = "id")
-  private Sellers sellers;
+  @JoinColumn(name = "seller_id", referencedColumnName = "id")
+  private Seller seller;
 
   @OneToMany(fetch = LAZY)
-  private List<SubProduct> subProducts = new ArrayList<>();
+  private List<SubProduct> subProduct = new ArrayList<>();
 
   private String shortDescription; //상품 설명
 
@@ -44,19 +44,19 @@ public class Products extends BaseTimeEntity {
 
   private String mainImageUrl; // 이미지 URL 주소
 
-  public Products(BigInteger id,
-                  Storages storages,
-                  Sellers sellers,
-                  List<SubProduct> subProducts,
+  public Product(BigInteger id,
+                  Storage storage,
+                  Seller seller,
+                  List<SubProduct> subProduct,
                   String shortDescription,
                   String sellerName,
                   String deliveryTypeName,
                   LocalDateTime expirationDate,
                   String mainImageUrl) {
     this.id = id;
-    this.storages = storages;
-    this.sellers = sellers;
-    this.subProducts = subProducts;
+    this.storage = storage;
+    this.seller = seller;
+    this.subProduct = subProduct;
     this.shortDescription = shortDescription;
     this.sellerName = sellerName;
     this.deliveryTypeName = deliveryTypeName;

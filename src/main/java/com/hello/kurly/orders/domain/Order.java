@@ -17,32 +17,32 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @Table(name = "orders")
 @Entity
-public class Orders extends BaseTimeEntity {
+public class Order extends BaseTimeEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private BigInteger id;
 
   @ManyToOne(fetch = LAZY)
-  @JoinColumn(name = "users_id")
-  private Users users;
+  @JoinColumn(name = "user_id")
+  private Users user;
 
   @OneToOne(fetch = LAZY)
   @JoinColumn(name = "delivery_id", referencedColumnName = "id")
   private Delivery delivery;
 
-  @OneToMany(mappedBy = "orders")
-  private List<OrderProduct> orderProducts = new ArrayList<>();
+  @OneToMany(mappedBy = "order")
+  private List<OrderProduct> orderProduct = new ArrayList<>();
 
   @Enumerated(EnumType.STRING)
   private OrderType status; //주문상태(주문완료, 주문취소, 주문불가)
 
-  public Orders(BigInteger id,
-                Users users,
+  public Order(BigInteger id,
+                Users user,
                 Delivery delivery,
                 OrderType status) {
     this.id = id;
-    this.users = users;
+    this.user = user;
     this.delivery = delivery;
     this.status = status;
   }

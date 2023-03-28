@@ -12,19 +12,19 @@ import static javax.persistence.FetchType.LAZY;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Table(name = "storages")
+@Table(name = "sellers")
 @Entity
-public class Storages extends BaseTimeEntity {
+public class Seller extends BaseTimeEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private BigInteger id; // 상위 상품 pk
 
-  @OneToOne(fetch = LAZY, mappedBy = "storages")
-  private Products products;
+  @OneToOne(fetch = LAZY, mappedBy = "seller")
+  private Product product;
 
-  public Storages(BigInteger id, Products products) {
+  public Seller(BigInteger id, Product product) {
     this.id = id;
-    this.products = products;
+    this.product = product;
   }
 }
