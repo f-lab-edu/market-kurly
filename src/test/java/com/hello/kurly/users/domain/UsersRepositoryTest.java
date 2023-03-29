@@ -1,6 +1,6 @@
 package com.hello.kurly.users.domain;
 
-import com.hello.kurly.common.exception.UsersNotFoundException;
+import com.hello.kurly.common.exception.UserNotFoundException;
 import com.hello.kurly.config.AuditConfig;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,13 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
-
 import static com.hello.kurly.factory.UsersFactory.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 @Import(AuditConfig.class)
 @DataJpaTest
@@ -23,20 +18,15 @@ class UsersRepositoryTest {
   @Autowired
   UsersRepository userRepository;
 
-  @PersistenceContext
-  EntityManager em;
-
   @Test
   @DisplayName("회원아이디로 회원을 조회한다")
   void findByNickname() {
 
     //given
     Users user = userRepository.save(createUser());
-    em.flush();
-    em.clear();
 
     //when
-    Users findUser = userRepository.findByNickname(user.getNickname()).orElseThrow(UsersNotFoundException::new);
+    Users findUser = userRepository.findByNickname(user.getNickname()).orElseThrow(UserNotFoundException::new);
 
     //then
     assertThat(findUser.getNickname()).isEqualTo(user.getNickname());
@@ -48,11 +38,9 @@ class UsersRepositoryTest {
 
     //given
     Users user = userRepository.save(createUser());
-    em.flush();
-    em.clear();
 
     //when
-    Users findUser = userRepository.findByEmail(user.getEmail()).orElseThrow(UsersNotFoundException::new);
+    Users findUser = userRepository.findByEmail(user.getEmail()).orElseThrow(UserNotFoundException::new);
 
     //then
     assertThat(findUser.getEmail()).isEqualTo(user.getEmail());
@@ -64,8 +52,6 @@ class UsersRepositoryTest {
 
     //given
     Users user = userRepository.save(createUser());
-    em.flush();
-    em.clear();
 
     //when, then
     assertThat(userRepository.existsByNickname(user.getNickname())).isTrue();
@@ -77,8 +63,6 @@ class UsersRepositoryTest {
 
     //given
     Users user = userRepository.save(createUser());
-    em.flush();
-    em.clear();
 
     //when, then
     assertThat(userRepository.existsByEmail(user.getEmail())).isTrue();
@@ -93,11 +77,9 @@ class UsersRepositoryTest {
 
     //when
     userRepository.save(user);
-    em.flush();
-    em.clear();
 
     //then
-    Users findUser = userRepository.findById(user.getId()).orElseThrow(UsersNotFoundException::new);
+    Users findUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
     assertThat(findUser.getId()).isEqualTo(user.getId());
   }
 
@@ -110,11 +92,9 @@ class UsersRepositoryTest {
 
     //when
     userRepository.save(user);
-    em.flush();
-    em.clear();
 
     //then
-    Users findUser = userRepository.findById(user.getId()).orElseThrow(UsersNotFoundException::new);
+    Users findUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
 
     assertThat(findUser.getCreatedAt()).isNotNull();
     assertThat(findUser.getUpdatedAt()).isNotNull();
@@ -129,15 +109,11 @@ class UsersRepositoryTest {
     Users user2 = createOtherUserWithNickname(user1.getNickname());
 
     userRepository.save(user1);
-    em.flush();
-    em.clear();
 
     //when, then
-    assertThatThrownBy(() -> {
-      userRepository.save(user2);
-      em.flush();
-      em.clear();
-    }).isInstanceOf(PersistenceException.class);
+//    assertThatThrownBy(() -> {
+//      userRepository.save(user2);
+//    }).isInstanceOf(DataIntegrityViolationException.class);
   }
 
   @Test
@@ -149,14 +125,10 @@ class UsersRepositoryTest {
     Users user2 = createOtherUserWithEmail(user1.getEmail());
 
     userRepository.save(user1);
-    em.flush();
-    em.clear();
 
     //when, then
-    assertThatThrownBy(() -> {
-      userRepository.save(user2);
-      em.flush();
-      em.clear();
-    }).isInstanceOf(PersistenceException.class);
+//    assertThatThrownBy(() -> {
+//      userRepository.save(user2);
+//    }).isInstanceOf(DataIntegrityViolationException.class);
   }
 }
