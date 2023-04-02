@@ -1,15 +1,20 @@
 package com.hello.kurly.users.domain;
 
-import com.hello.kurly.common.exception.UserNotFoundException;
 import com.hello.kurly.config.AuditConfig;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.dao.DataIntegrityViolationException;
 
-import static com.hello.kurly.factory.UsersFactory.*;
+import java.time.LocalDateTime;
+import java.util.Optional;
+
+import static com.hello.kurly.factory.UsersFactory.createOtherUserWithNickname;
+import static com.hello.kurly.factory.UsersFactory.createUser;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 @Import(AuditConfig.class)
 @DataJpaTest(showSql = false)
@@ -19,116 +24,44 @@ class UsersRepositoryTest {
   UsersRepository userRepository;
 
   @Test
-  @DisplayName("회원아이디로 회원을 조회한다")
-  void findByNickname() {
+  @DisplayName("회원을 저장하고 회원아이디 또는 이메일로 조회한다")
+  void saveUser() {
 
     //given
+    LocalDateTime now = LocalDateTime.now();
     Users user = userRepository.save(createUser());
 
     //when
-    Users findUser = userRepository.findByNickname(user.getNickname()).orElseThrow(UserNotFoundException::new);
+    Optional<Users> findUserByNickname = userRepository.findByNickname(user.getNickname());
+    Optional<Users> findUserByEmail = userRepository.findByEmail(user.getEmail());
+    boolean nicknameExists = userRepository.existsByNickname(user.getNickname());
+    boolean emailExists = userRepository.existsByEmail(user.getEmail());
 
     //then
-    assertThat(findUser.getNickname()).isEqualTo(user.getNickname());
+    assertThat(findUserByNickname.get().getNickname()).isEqualTo(user.getNickname());
+    assertThat(findUserByNickname.get().getCreatedAt()).isAfter(now);
+    assertThat(findUserByNickname.get().getUpdatedAt()).isAfter(now);
+    assertThat(findUserByEmail.get().getEmail()).isEqualTo(user.getEmail());
+    assertThat(nicknameExists).isTrue();
+    assertThat(emailExists).isTrue();
   }
 
   @Test
-  @DisplayName("이메일로 회원을 조회한다")
-  void findByEmail() {
-
-    //given
-    Users user = userRepository.save(createUser());
-
-    //when
-    Users findUser = userRepository.findByEmail(user.getEmail()).orElseThrow(UserNotFoundException::new);
-
-    //then
-    assertThat(findUser.getEmail()).isEqualTo(user.getEmail());
-  }
-
-  @Test
-  @DisplayName("회원아이디 존재 여부를 확인한다")
-  void existsByNickname() {
-
-    //given
-    Users user = userRepository.save(createUser());
-
-    //when, then
-    assertThat(userRepository.existsByNickname(user.getNickname())).isTrue();
-  }
-
-  @Test
-  @DisplayName("이메일 존재 여부를 확인한다")
-  void existsByEmail() {
-
-    //given
-    Users user = userRepository.save(createUser());
-
-    //when, then
-    assertThat(userRepository.existsByEmail(user.getEmail())).isTrue();
-  }
-
-  @Test
-  @DisplayName("회원을 저장하고 조회한다")
-  void saveUsers() {
+  @DisplayName("회원아이디 또는 이메일이 중복인 경우 예외가 발생한다")
+  void throwExceptionByNicknameOrEmailDuplication() {
 
     //given
     Users user = createUser();
-
-    //when
+    Users sameNicknameAsUser = createOtherUserWithNickname(user.getNickname());
+    Users sameEmailAsUser = createOtherUserWithNickname(user.getEmail());
     userRepository.save(user);
 
-    //then
-    Users findUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
-    assertThat(findUser.getId()).isEqualTo(user.getId());
-  }
-
-  @Test
-  @DisplayName("생성일을 저장한다")
-  void saveBaseTimeEntity() {
-
-    //given
-    Users user = createUser();
-
-    //when
-    userRepository.save(user);
-
-    //then
-    Users findUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
-
-    assertThat(findUser.getCreatedAt()).isNotNull();
-    assertThat(findUser.getUpdatedAt()).isNotNull();
-  }
-
-  @Test
-  @DisplayName("회원아이디가 중복인 경우 예외가 발생한다")
-  void throwExceptionByNicknameDuplication() {
-
-    //given
-    Users user1 = createUser();
-    Users user2 = createOtherUserWithNickname(user1.getNickname());
-
-    userRepository.save(user1);
-
     //when, then
-//    assertThatThrownBy(() -> {
-//      userRepository.save(user2);
-//    }).isInstanceOf(DataIntegrityViolationException.class);
-  }
-
-  @Test
-  @DisplayName("이메일이 중복인 경우 예외가 발생한다")
-  void throwExceptionByEmailDuplication() {
-
-    //given
-    Users user1 = createUser();
-    Users user2 = createOtherUserWithEmail(user1.getEmail());
-
-    userRepository.save(user1);
-
-    //when, then
-//    assertThatThrownBy(() -> {
-//      userRepository.save(user2);
-//    }).isInstanceOf(DataIntegrityViolationException.class);
+    assertThatThrownBy(() -> {
+      userRepository.saveAndFlush(sameNicknameAsUser);
+    }).isInstanceOf(DataIntegrityViolationException.class);
+    assertThatThrownBy(() -> {
+      userRepository.saveAndFlush(sameEmailAsUser);
+    }).isInstanceOf(DataIntegrityViolationException.class);
   }
 }
