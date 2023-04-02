@@ -19,6 +19,7 @@ public class UsersFactory {
                     LocalDate.now(),
                     "gender1",
                     "password1",
+                    null,
                     new ArrayList<>());
   }
 
@@ -33,6 +34,7 @@ public class UsersFactory {
                     LocalDate.now(),
                     "gender2",
                     "password2",
+                    null,
                     new ArrayList<>());
   }
 
@@ -47,6 +49,7 @@ public class UsersFactory {
                     LocalDate.now(),
                     "gender2",
                     "password2",
+                    null,
                     new ArrayList<>());
   }
 }

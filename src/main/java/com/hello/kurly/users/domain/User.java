@@ -48,8 +48,10 @@ public class User extends BaseTimeEntity {
 
   private String password; //비밀번호
 
+  private BigInteger defaultDeliveryAddressId; //기본배송지
+
   @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
-  private List<UserAddress> usersAddresses = new ArrayList<>();
+  private List<UserAddress> userAddresses = new ArrayList<>();
 
   public User(String nickname,
               String status,
@@ -61,7 +63,8 @@ public class User extends BaseTimeEntity {
               LocalDate birthday,
               String gender,
               String password,
-              List<UserAddress> usersAddresses) {
+              BigInteger defaultDeliveryAddressId,
+              List<UserAddress> userAddresses) {
     this.nickname = nickname;
     this.status = status;
     this.role = role;
@@ -72,6 +75,7 @@ public class User extends BaseTimeEntity {
     this.birthday = birthday;
     this.gender = gender;
     this.password = password;
-    this.usersAddresses = usersAddresses;
+    this.defaultDeliveryAddressId = defaultDeliveryAddressId;
+    this.userAddresses = userAddresses;
   }
 }
