@@ -12,7 +12,7 @@ import static com.hello.kurly.factory.UsersFactory.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @Import(AuditConfig.class)
-@DataJpaTest
+@DataJpaTest(showSql = false)
 class UsersRepositoryTest {
 
   @Autowired
