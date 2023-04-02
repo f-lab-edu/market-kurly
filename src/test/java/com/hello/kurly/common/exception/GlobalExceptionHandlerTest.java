@@ -39,7 +39,7 @@ class GlobalExceptionHandlerTest {
   @DisplayName("요청 값 타입이 다르면 오류 응답을 반환한다")
   void handleMethodArgumentTypeMismatchException() throws Exception {
 
-    mockMvc.perform(get("/v1/users/{id}", "TEST")
+    mockMvc.perform(get("/v1/users/{id}", "StringValue")
                             .contentType(MediaType.APPLICATION_JSON))
            .andExpect(status().isBadRequest())
            .andExpect(jsonPath("status").value(ErrorCode.BAD_REQUEST.getStatus()))

@@ -3,8 +3,8 @@ package com.hello.kurly.users.v1.controller;
 import com.hello.kurly.users.v1.dto.AddressDto;
 import com.hello.kurly.users.v1.dto.ExistTarget;
 import com.hello.kurly.users.v1.dto.SignUpRequestDto;
-import com.hello.kurly.users.v1.dto.UsersResponseDto;
-import com.hello.kurly.users.v1.service.UsersService;
+import com.hello.kurly.users.v1.dto.UserResponseDto;
+import com.hello.kurly.users.v1.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,22 +14,22 @@ import java.util.ArrayList;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/users")
-public class UsersController {
+public class UserController {
 
-  private final UsersService usersService;
+  private final UserService userService;
 
   @PostMapping
-  public UsersResponseDto create(@RequestBody SignUpRequestDto dto) {
+  public UserResponseDto create(@RequestBody SignUpRequestDto dto) {
 
     ArrayList<AddressDto> addresses = new ArrayList<>();
     addresses.add(new AddressDto(true, "", "", "", ""));
-    return new UsersResponseDto("", "", "", addresses);
+    return new UserResponseDto("", "", "", addresses);
   }
 
   @GetMapping("/{id}")
-  public UsersResponseDto getUser(@PathVariable BigInteger id) {
+  public UserResponseDto getUser(@PathVariable BigInteger id) {
 
-    return usersService.getUser(id);
+    return userService.getUser(id);
   }
 
   @PutMapping("/{id}/profile")
@@ -38,7 +38,7 @@ public class UsersController {
   }
 
   @GetMapping("/me")
-  public UsersResponseDto getMe(@PathVariable BigInteger id) {
+  public UserResponseDto getMe(@PathVariable BigInteger id) {
     return null;
   }
 

@@ -15,7 +15,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @Table(name = "users_addresses")
 @Entity
-public class UsersAddresses extends BaseTimeEntity {
+public class UserAddress extends BaseTimeEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,6 +29,6 @@ public class UsersAddresses extends BaseTimeEntity {
   private Address homeAddress;
 
   @ManyToOne(fetch = LAZY)
-  @JoinColumn(name = "users_id")
-  private Users users;
+  @JoinColumn(name = "user_id")
+  private User user;
 }

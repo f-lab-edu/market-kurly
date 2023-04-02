@@ -17,7 +17,7 @@ import static javax.persistence.CascadeType.ALL;
 @Getter
 @Table(name = "users")
 @Entity
-public class Users extends BaseTimeEntity {
+public class User extends BaseTimeEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -48,20 +48,20 @@ public class Users extends BaseTimeEntity {
 
   private String password; //비밀번호
 
-  @OneToMany(mappedBy = "users", cascade = ALL, orphanRemoval = true)
-  private List<UsersAddresses> usersAddresses = new ArrayList<>();
+  @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
+  private List<UserAddress> usersAddresses = new ArrayList<>();
 
-  public Users(String nickname,
-               String status,
-               RoleType role,
-               String grade,
-               String name,
-               String email,
-               String mobileNumber,
-               LocalDate birthday,
-               String gender,
-               String password,
-               List<UsersAddresses> usersAddresses) {
+  public User(String nickname,
+              String status,
+              RoleType role,
+              String grade,
+              String name,
+              String email,
+              String mobileNumber,
+              LocalDate birthday,
+              String gender,
+              String password,
+              List<UserAddress> usersAddresses) {
     this.nickname = nickname;
     this.status = status;
     this.role = role;

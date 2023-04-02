@@ -7,4 +7,4 @@
 
 === 회원가입
 
-operation::users-controller-test/create[snippets='http-request,http-response,request-body,request-fields,response-body,response-fields']
+operation::user-controller-test/create[snippets='http-request,http-response,request-body,request-fields,response-body,response-fields']

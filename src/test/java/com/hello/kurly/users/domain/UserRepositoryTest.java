@@ -18,10 +18,10 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 @Import(AuditConfig.class)
 @DataJpaTest(showSql = false)
-class UsersRepositoryTest {
+class UserRepositoryTest {
 
   @Autowired
-  UsersRepository userRepository;
+  UserRepository userRepository;
 
   @Test
   @DisplayName("회원을 저장하고 회원아이디 또는 이메일로 조회한다")
@@ -29,11 +29,11 @@ class UsersRepositoryTest {
 
     //given
     LocalDateTime now = LocalDateTime.now();
-    Users user = userRepository.save(createUser());
+    User user = userRepository.save(createUser());
 
     //when
-    Optional<Users> findUserByNickname = userRepository.findByNickname(user.getNickname());
-    Optional<Users> findUserByEmail = userRepository.findByEmail(user.getEmail());
+    Optional<User> findUserByNickname = userRepository.findByNickname(user.getNickname());
+    Optional<User> findUserByEmail = userRepository.findByEmail(user.getEmail());
     boolean nicknameExists = userRepository.existsByNickname(user.getNickname());
     boolean emailExists = userRepository.existsByEmail(user.getEmail());
 
@@ -51,9 +51,9 @@ class UsersRepositoryTest {
   void throwExceptionByNicknameOrEmailDuplication() {
 
     //given
-    Users user = createUser();
-    Users sameNicknameAsUser = createOtherUserWithNickname(user.getNickname());
-    Users sameEmailAsUser = createOtherUserWithNickname(user.getEmail());
+    User user = createUser();
+    User sameNicknameAsUser = createOtherUserWithNickname(user.getNickname());
+    User sameEmailAsUser = createOtherUserWithNickname(user.getEmail());
     userRepository.save(user);
 
     //when, then

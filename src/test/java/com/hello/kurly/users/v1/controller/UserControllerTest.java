@@ -3,7 +3,7 @@ package com.hello.kurly.users.v1.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hello.kurly.config.RestDocsConfig;
 import com.hello.kurly.users.v1.dto.SignUpRequestDto;
-import com.hello.kurly.users.v1.service.UsersService;
+import com.hello.kurly.users.v1.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,8 +28,8 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 @Import(RestDocsConfig.class)
 @ExtendWith(RestDocumentationExtension.class)
-@WebMvcTest(UsersController.class)
-class UsersControllerTest {
+@WebMvcTest(UserController.class)
+class UserControllerTest {
 
   @Autowired
   private MockMvc mockMvc;
@@ -38,7 +38,7 @@ class UsersControllerTest {
   protected RestDocumentationResultHandler restDocs;
 
   @MockBean
-  private UsersService usersService;
+  private UserService userService;
 
   @BeforeEach
   void setUp(WebApplicationContext context, RestDocumentationContextProvider provider) {
