@@ -1,8 +1,12 @@
 package com.hello.kurly.users.v1.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hello.kurly.common.exception.NicknameAlreadyExistsException;
 import com.hello.kurly.config.RestDocsConfig;
-import com.hello.kurly.users.v1.dto.SignUpRequestDto;
+import com.hello.kurly.factory.SignUpRequestFactory;
+import com.hello.kurly.users.v1.dto.AddressResponse;
+import com.hello.kurly.users.v1.dto.SignUpRequest;
+import com.hello.kurly.users.v1.dto.UserResponse;
 import com.hello.kurly.users.v1.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,6 +23,10 @@ import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.ArrayList;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -51,22 +59,25 @@ class UserControllerTest {
   }
 
   @Test
-  @DisplayName("회원가입 API를 호출한다")
-  void create() throws Exception {
-    SignUpRequestDto requestDto = new SignUpRequestDto("회원아이디",
-                                                       "회원명",
-                                                       "이메일",
-                                                       "휴대폰번호",
-                                                       "생일",
-                                                       "성별",
-                                                       "비밀번호",
-                                                       "우편번호",
-                                                       "주소",
-                                                       "상세주소");
+  @DisplayName("회원가입을 성공한다")
+  void signUp() throws Exception {
+    SignUpRequest request = SignUpRequestFactory.createSignUpRequest();
+    ArrayList<AddressResponse> addresses = new ArrayList<>();
+    addresses.add(new AddressResponse("zipCode1",
+                                      "address1",
+                                      "addressDetail"));
 
-    mockMvc.perform(post("/v1/users")
+    when(userService.signUp(any()))
+            .thenReturn(new UserResponse(
+                    "nickname1",
+                    "GENERAL",
+                    "name1",
+                    addresses)
+            );
+
+    mockMvc.perform(post("/v1/users/signup")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(new ObjectMapper().writeValueAsString(requestDto)))
+                            .content(new ObjectMapper().writeValueAsString(request)))
            .andExpect(status().isOk())
            .andDo(
                    restDocs.document(
@@ -88,14 +99,26 @@ class UserControllerTest {
                                    fieldWithPath("name").description("회원명"),
                                    fieldWithPath("addresses").description("배송지목록")
                            ).andWithPrefix("addresses.[].",
-                                           fieldWithPath("baseDeliveryAddress").description("기본배송지여부"),
-                                           fieldWithPath("deliveryPolicy").description("배송정책"),
                                            fieldWithPath("zipCode").description("우편번호"),
                                            fieldWithPath("address").description("기본주소"),
                                            fieldWithPath("addressDetail").description("상세주소")
                            )
                    )
            );
+  }
+
+  @Test
+  @DisplayName("회원아이디가 이미 존재하는 경우 회원가입을 실패한다")
+  void signUp_fail() throws Exception {
+    SignUpRequest request = SignUpRequestFactory.createSignUpRequest();
+
+    when(userService.signUp(any()))
+            .thenThrow(new NicknameAlreadyExistsException());
+
+    mockMvc.perform(post("/v1/users/signup")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(new ObjectMapper().writeValueAsString(request)))
+           .andExpect(status().isConflict());
   }
 
   @Test

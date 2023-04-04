@@ -4,6 +4,7 @@ import com.hello.kurly.common.model.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.math.BigInteger;
@@ -31,7 +32,8 @@ public class User extends BaseTimeEntity {
   @Enumerated(EnumType.STRING)
   private RoleType role; //권한(관리자, 사용자)
 
-  private String grade; //등급(일반, 프렌즈, ...)
+  @Enumerated(EnumType.STRING)
+  private GradeType grade; //등급(일반, 프렌즈, ...)
 
   @Column(nullable = false, length = 20)
   private String name; //회원명
@@ -56,7 +58,7 @@ public class User extends BaseTimeEntity {
   public User(String nickname,
               String status,
               RoleType role,
-              String grade,
+              GradeType grade,
               String name,
               String email,
               String mobileNumber,
@@ -77,5 +79,17 @@ public class User extends BaseTimeEntity {
     this.password = password;
     this.defaultDeliveryAddressId = defaultDeliveryAddressId;
     this.userAddresses = userAddresses;
+  }
+
+  public void encodePassword(PasswordEncoder passwordEncoder) {
+    this.password = passwordEncoder.encode(password);
+  }
+
+  public void addAuthority() {
+    this.role = RoleType.ROLE_NORMAL;
+  }
+
+  public void addBasicGrade() {
+    this.grade = GradeType.GENERAL;
   }
 }

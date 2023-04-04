@@ -1,5 +1,6 @@
 package com.hello.kurly.factory;
 
+import com.hello.kurly.users.domain.GradeType;
 import com.hello.kurly.users.domain.RoleType;
 import com.hello.kurly.users.domain.User;
 
@@ -12,7 +13,7 @@ public class UsersFactory {
     return new User("nickname1",
                     "status1",
                     RoleType.ROLE_NORMAL,
-                    "grade1",
+                    GradeType.GENERAL,
                     "name1",
                     "email1",
                     "mobileNUmber1",
@@ -27,7 +28,7 @@ public class UsersFactory {
     return new User(nickname,
                     "status2",
                     RoleType.ROLE_ADMIN,
-                    "grade2",
+                    GradeType.GENERAL,
                     "name2",
                     "email2",
                     "mobileNUmber2",
@@ -42,7 +43,7 @@ public class UsersFactory {
     return new User("nickname2",
                     "status2",
                     RoleType.ROLE_ADMIN,
-                    "grade2",
+                    GradeType.GENERAL,
                     "name2",
                     email,
                     "mobileNUmber2",

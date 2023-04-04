@@ -8,7 +8,9 @@ public enum ErrorCode {
   INTERNAL_SERVER_ERROR(500, "C003", "Server Error"),
 
   //Users
-  USER_NOT_FOUND(400, "U001", "User Not Found");
+  USER_NOT_FOUND(400, "U001", "User not found"),
+  NICKNAME_ALREADY_EXISTS(409, "U002", "Nickname already exists"),
+  EMAIL_ALREADY_EXISTS(409, "U003", "Email already exists");
 
   private final int status;
   private final String code;

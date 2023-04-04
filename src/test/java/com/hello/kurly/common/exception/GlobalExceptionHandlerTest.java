@@ -21,7 +21,6 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
 class GlobalExceptionHandlerTest {
 
   @Autowired

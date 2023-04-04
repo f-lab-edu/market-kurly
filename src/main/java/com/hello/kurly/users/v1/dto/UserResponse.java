@@ -11,28 +11,28 @@ import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor(access = PRIVATE)
 @Getter
-public class UserResponseDto {
+public class UserResponse {
 
   private String nickname;
   private String grade;
   private String name;
-  private List<AddressDto> addresses = new ArrayList<>();
+  private List<AddressResponse> addresses = new ArrayList<>();
 
-  public UserResponseDto(String nickname, String grade, String name, List<AddressDto> addresses) {
+  public UserResponse(String nickname, String grade, String name, List<AddressResponse> addresses) {
     this.nickname = nickname;
     this.grade = grade;
     this.name = name;
     this.addresses = addresses;
   }
 
-  private UserResponseDto(User user) {
+  private UserResponse(User user) {
     this.nickname = user.getNickname();
-    this.grade = user.getGrade();
+    this.grade = String.valueOf(user.getGrade());
     this.name = user.getName();
     this.addresses = new ArrayList<>();
   }
 
-  public static UserResponseDto from(User user) {
-    return new UserResponseDto(user);
+  public static UserResponse from(User user) {
+    return new UserResponse(user);
   }
 }
