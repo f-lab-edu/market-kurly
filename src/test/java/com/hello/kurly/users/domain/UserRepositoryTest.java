@@ -11,8 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static com.hello.kurly.factory.UsersFactory.createOtherUserWithNickname;
-import static com.hello.kurly.factory.UsersFactory.createUser;
+import static com.hello.kurly.factory.UsersFactory.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
@@ -53,15 +52,15 @@ class UserRepositoryTest {
     //given
     User user = createUser();
     User sameNicknameAsUser = createOtherUserWithNickname(user.getNickname());
-    User sameEmailAsUser = createOtherUserWithNickname(user.getEmail());
+    User sameEmailAsUser = createOtherUserWithEmail(user.getEmail());
     userRepository.save(user);
 
     //when, then
     assertThatThrownBy(() -> {
-      userRepository.saveAndFlush(sameNicknameAsUser);
+      userRepository.save(sameNicknameAsUser);
     }).isInstanceOf(DataIntegrityViolationException.class);
     assertThatThrownBy(() -> {
-      userRepository.saveAndFlush(sameEmailAsUser);
+      userRepository.save(sameEmailAsUser);
     }).isInstanceOf(DataIntegrityViolationException.class);
   }
 }

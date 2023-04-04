@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.math.BigInteger;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -18,8 +17,8 @@ import static javax.persistence.FetchType.LAZY;
 public class UserAddress extends BaseTimeEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private BigInteger id; //pk
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id; //pk
 
   @ManyToOne(fetch = LAZY)
   @JoinColumn(name = "user_id")

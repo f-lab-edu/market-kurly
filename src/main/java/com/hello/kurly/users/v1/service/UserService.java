@@ -31,7 +31,7 @@ public class UserService {
     return UserResponse.from(userRepository.save(user));
   }
 
-  public UserResponse getUser(BigInteger id) {
+  public UserResponse getUser(Long id) {
     User findUser = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
     return UserResponse.from(findUser);
   }

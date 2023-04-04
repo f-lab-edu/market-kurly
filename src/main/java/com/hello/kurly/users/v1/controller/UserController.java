@@ -23,18 +23,18 @@ public class UserController {
   }
 
   @GetMapping("/{id}")
-  public UserResponse getUser(@PathVariable BigInteger id) {
+  public UserResponse getUser(@PathVariable Long id) {
 
     return userService.getUser(id);
   }
 
   @PutMapping("/{id}/profile")
-  public Long updateProfile(@PathVariable BigInteger id) {
+  public Long updateProfile(@PathVariable Long id) {
     return null;
   }
 
   @GetMapping("/me")
-  public UserResponse getMe(@PathVariable BigInteger id) {
+  public UserResponse getMe(@PathVariable Long id) {
     return null;
   }
 

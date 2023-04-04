@@ -21,8 +21,8 @@ import static javax.persistence.CascadeType.ALL;
 public class User extends BaseTimeEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private BigInteger id; //pk
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id; //pk
 
   @Column(nullable = false, length = 20, unique = true)
   private String nickname; //회원아이디
