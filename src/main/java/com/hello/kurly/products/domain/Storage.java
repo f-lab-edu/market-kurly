@@ -10,7 +10,7 @@ import java.math.BigInteger;
 
 import static javax.persistence.FetchType.LAZY;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Getter
 @Table(name = "storages")
 @Entity
@@ -18,13 +18,17 @@ public class Storage extends BaseTimeEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private BigInteger id; // 상위 상품 pk
+  private Long id; // 상위 상품 pk
 
   @OneToOne(fetch = LAZY, mappedBy = "storage")
   private Product product;
 
-  public Storage(BigInteger id, Product product) {
+  public Storage(Long id, Product product) {
     this.id = id;
     this.product = product;
+  }
+
+  public Storage(Long id) {
+    this.id = id;
   }
 }

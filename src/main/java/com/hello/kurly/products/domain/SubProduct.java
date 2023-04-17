@@ -1,31 +1,29 @@
 package com.hello.kurly.products.domain;
 
 import com.hello.kurly.common.model.BaseTimeEntity;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigInteger;
 
 import static javax.persistence.FetchType.LAZY;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Getter
 @Table(name = "sub_products")
 @Entity
+@Builder
+@ToString
 public class SubProduct extends BaseTimeEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private BigInteger id; // 상품 pk
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id; // 상품 pk
 
   @ManyToOne(fetch = LAZY)
-  @JoinColumn(name = "product_id")
   private Product product;
 
   @ManyToOne(fetch = LAZY)
-  @JoinColumn(name = "category_id")
   private Category category; //카테고리 ID
   private String name; // 상품이름
 
@@ -56,7 +54,7 @@ public class SubProduct extends BaseTimeEntity {
   private Boolean isExpectedPoint; // 적립 여부
   private String mainImageUrl; // 이미지 URL 주소
 
-  public SubProduct(BigInteger id,
+  public SubProduct(Long id,
                      Product product,
                      Category category,
                      String name,

@@ -6,9 +6,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+import static javax.persistence.CascadeType.ALL;
+
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Getter
 @Table(name = "categories")
 @Entity
@@ -16,11 +19,14 @@ public class Category extends BaseTimeEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private BigInteger id;
+  private Long id;
 
   private String name; // 카테고리 명
 
-  public Category(BigInteger id, String name) {
+  @OneToMany(mappedBy = "category", cascade = ALL, orphanRemoval = true)
+  private List<SubProduct> subProducts = new ArrayList<>();
+
+  public Category(Long id, String name) {
     this.id = id;
     this.name = name;
   }

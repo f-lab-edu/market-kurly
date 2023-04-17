@@ -8,7 +8,10 @@ public enum ErrorCode {
   INTERNAL_SERVER_ERROR(500, "C003", "Server Error"),
 
   //Users
-  USER_NOT_FOUND(400, "U001", "User Not Found");
+  USER_NOT_FOUND(400, "U001", "User Not Found"),
+
+  //Product
+  PRODUCT_NOT_FOUND(400, "P001", "Product Not Found");
 
   private final int status;
   private final String code;

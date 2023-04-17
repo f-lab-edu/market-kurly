@@ -6,11 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.math.BigInteger;
+import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Getter
 @Table(name = "sellers")
 @Entity
@@ -18,13 +18,12 @@ public class Seller extends BaseTimeEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private BigInteger id; // 상위 상품 pk
+  private Long id; // 상위 상품 pk
 
-  @OneToOne(fetch = LAZY, mappedBy = "seller")
-  private Product product;
+  @OneToMany(fetch = LAZY, mappedBy = "seller")
+  private List<Product> products;
 
-  public Seller(BigInteger id, Product product) {
+  public Seller(Long id) {
     this.id = id;
-    this.product = product;
   }
 }
