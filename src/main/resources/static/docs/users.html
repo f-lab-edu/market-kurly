@@ -452,8 +452,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h4 id="_회원가입_http_request">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/users/signup HTTP/1.1
-Content-Type: application/json
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/users/sign-up HTTP/1.1
+Content-Type: application/json;charset=UTF-8
 Content-Length: 277
 Host: localhost:8080
 
@@ -618,42 +618,14 @@ Content-Length: 194
 </div>
 <div class="sect3">
 <h4 id="_회원가입_http_request">HTTP request</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/users/signup HTTP/1.1
-Content-Type: application/json
-Content-Length: 277
-Host: localhost:8080
-
-{
-  "nickname" : "nickname1",
-  "name" : "name1",
-  "email" : "email1",
-  "mobileNumber" : "mobileNUmber1",
-  "birthday" : "20000101",
-  "gender" : "gender1",
-  "password" : "password1",
-  "zipCode" : "zipcode1",
-  "address" : "address1",
-  "addressDetail" : "addressdetail1"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Snippet http-request not found for operation::user-controller-test/sign-up_fail</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_회원가입_http_response">HTTP response</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 409 Conflict
-Content-Type: application/json
-Content-Length: 80
-
-{
-  "status" : 409,
-  "code" : "U002",
-  "message" : "Nickname already exists"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Snippet http-response not found for operation::user-controller-test/sign-up_fail</p>
 </div>
 </div>
 </div>

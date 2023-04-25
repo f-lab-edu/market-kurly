@@ -2,17 +2,18 @@ package com.hello.kurly.factory;
 
 import com.hello.kurly.users.domain.GradeType;
 import com.hello.kurly.users.domain.RoleType;
+import com.hello.kurly.users.domain.StatusType;
 import com.hello.kurly.users.domain.User;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class UsersFactory {
+public class UserFactory {
 
   public static User createUser() {
     return new User("nickname1",
-                    "status1",
-                    RoleType.ROLE_NORMAL,
+                    StatusType.NORMAL,
+                    RoleType.NORMAL,
                     GradeType.GENERAL,
                     "name1",
                     "email1",
@@ -26,8 +27,8 @@ public class UsersFactory {
 
   public static User createOtherUserWithNickname(String nickname) {
     return new User(nickname,
-                    "status2",
-                    RoleType.ROLE_ADMIN,
+                    StatusType.NORMAL,
+                    RoleType.ADMIN,
                     GradeType.GENERAL,
                     "name2",
                     "email2",
@@ -41,8 +42,8 @@ public class UsersFactory {
 
   public static User createOtherUserWithEmail(String email) {
     return new User("nickname2",
-                    "status2",
-                    RoleType.ROLE_ADMIN,
+                    StatusType.NORMAL,
+                    RoleType.ADMIN,
                     GradeType.GENERAL,
                     "name2",
                     email,

@@ -27,10 +27,11 @@ public class User extends BaseTimeEntity {
   @Column(nullable = false, length = 20, unique = true)
   private String nickname; //회원아이디
 
-  private String status; //회원상태(일반, 탈퇴, 휴먼, ...)
+  @Enumerated(EnumType.STRING)
+  private StatusType status; //회원상태(일반, 비활동, 탈퇴)
 
   @Enumerated(EnumType.STRING)
-  private RoleType role; //권한(관리자, 사용자)
+  private RoleType role; //권한(사용자, 관리자)
 
   @Enumerated(EnumType.STRING)
   private GradeType grade; //등급(일반, 프렌즈, ...)
@@ -56,7 +57,7 @@ public class User extends BaseTimeEntity {
   private List<UserAddress> userAddresses = new ArrayList<>();
 
   public User(String nickname,
-              String status,
+              StatusType status,
               RoleType role,
               GradeType grade,
               String name,
@@ -81,15 +82,19 @@ public class User extends BaseTimeEntity {
     this.userAddresses = userAddresses;
   }
 
-  public void encodePassword(PasswordEncoder passwordEncoder) {
-    this.password = passwordEncoder.encode(password);
+  public void addAccountStatus() {
+    status = StatusType.NORMAL;
   }
 
   public void addAuthority() {
-    this.role = RoleType.ROLE_NORMAL;
+    role = RoleType.NORMAL;
   }
 
   public void addBasicGrade() {
-    this.grade = GradeType.GENERAL;
+    grade = GradeType.GENERAL;
+  }
+
+  public void encodePassword(PasswordEncoder passwordEncoder) {
+    password = passwordEncoder.encode(password);
   }
 }

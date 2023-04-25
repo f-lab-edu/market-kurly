@@ -1,16 +1,16 @@
 package com.hello.kurly.common.exception;
 
+import com.hello.kurly.common.jwt.JwtService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
-
-import javax.transaction.Transactional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -26,9 +26,11 @@ class GlobalExceptionHandlerTest {
   @Autowired
   private MockMvc mockMvc;
 
+  @MockBean
+  private JwtService jwtService;
+
   @BeforeEach
   void setUp(WebApplicationContext context) {
-
     this.mockMvc = webAppContextSetup(context)
             .alwaysDo(print())
             .build();
@@ -37,7 +39,6 @@ class GlobalExceptionHandlerTest {
   @Test
   @DisplayName("요청 값 타입이 다르면 오류 응답을 반환한다")
   void handleMethodArgumentTypeMismatchException() throws Exception {
-
     mockMvc.perform(get("/v1/users/{id}", "StringValue")
                             .contentType(MediaType.APPLICATION_JSON))
            .andExpect(status().isBadRequest())
@@ -49,9 +50,9 @@ class GlobalExceptionHandlerTest {
   @Test
   @DisplayName("지원하지 않는 http request method이면 오류 응답을 반환한다")
   void handleHttpRequestMethodNotSupportedException() throws Exception {
-
     mockMvc.perform(post("/v1/users/{id}", 1)
-                            .contentType(MediaType.APPLICATION_JSON))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .characterEncoding("UTF-8"))
            .andExpect(status().isMethodNotAllowed())
            .andExpect(jsonPath("status").value(ErrorCode.METHOD_NOT_ALLOWED.getStatus()))
            .andExpect(jsonPath("code").value(ErrorCode.METHOD_NOT_ALLOWED.getCode()))
@@ -61,7 +62,6 @@ class GlobalExceptionHandlerTest {
   @Test
   @DisplayName("회원 정보가 없으면 오류 응답을 반환한다")
   void handleBusinessException() throws Exception {
-
     mockMvc.perform(get("/v1/users/{id}", 1)
                             .contentType(MediaType.APPLICATION_JSON))
            .andExpect(status().isBadRequest())
@@ -72,7 +72,6 @@ class GlobalExceptionHandlerTest {
 
   @Test
   void handleException() throws Exception {
-
     //TODO 정의되지 않은 예외 확인
   }
 }

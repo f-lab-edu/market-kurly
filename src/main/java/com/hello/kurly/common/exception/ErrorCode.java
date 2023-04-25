@@ -10,7 +10,8 @@ public enum ErrorCode {
   //Users
   USER_NOT_FOUND(400, "U001", "User not found"),
   NICKNAME_ALREADY_EXISTS(409, "U002", "Nickname already exists"),
-  EMAIL_ALREADY_EXISTS(409, "U003", "Email already exists");
+  EMAIL_ALREADY_EXISTS(409, "U003", "Email already exists"),
+  INVALID_PASSWORD(401, "U004", "Invalid password");
 
   private final int status;
   private final String code;

@@ -45,7 +45,7 @@ public class SignUpRequest {
 
   public User toEntity() {
     return new User(nickname,
-                    "",
+                    null,
                     null,
                     null,
                     name,

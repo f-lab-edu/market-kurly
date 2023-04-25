@@ -15,8 +15,7 @@ spring:
   logging.level:
     org.hibernate.SQL: debug
 
-  security:
-    user:
-      name: user
-      password: 1234
+jwt:
+  secretKey: zC/pVHa2Cmgh3l9vONmXGkdJkgWYFl2Z0u/veLqAWuc=
+  expireTimeMs: 3600000
 

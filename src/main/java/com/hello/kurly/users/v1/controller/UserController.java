@@ -1,13 +1,10 @@
 package com.hello.kurly.users.v1.controller;
 
-import com.hello.kurly.users.v1.dto.ExistTarget;
-import com.hello.kurly.users.v1.dto.SignUpRequest;
-import com.hello.kurly.users.v1.dto.UserResponse;
+import com.hello.kurly.users.v1.dto.*;
 import com.hello.kurly.users.v1.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
-import java.math.BigInteger;
 
 @RequiredArgsConstructor
 @RestController
@@ -16,25 +13,28 @@ public class UserController {
 
   private final UserService userService;
 
-  @PostMapping("/signup")
+  @PostMapping("/sign-up")
   public UserResponse signUp(@RequestBody SignUpRequest request) {
-
     return userService.signUp(request);
+  }
+
+  @PostMapping("/sign-in")
+  public SignInResponse signIn(@RequestBody SignInRequest request) {
+    return userService.signIn(request);
+  }
+
+  @GetMapping("/me")
+  public UserResponse getMe(Authentication authentication) {
+    return userService.getMe(authentication);
   }
 
   @GetMapping("/{id}")
   public UserResponse getUser(@PathVariable Long id) {
-
     return userService.getUser(id);
   }
 
   @PutMapping("/{id}/profile")
   public Long updateProfile(@PathVariable Long id) {
-    return null;
-  }
-
-  @GetMapping("/me")
-  public UserResponse getMe(@PathVariable Long id) {
     return null;
   }
 

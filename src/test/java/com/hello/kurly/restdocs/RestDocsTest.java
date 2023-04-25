@@ -1,5 +1,6 @@
 package com.hello.kurly.restdocs;
 
+import com.hello.kurly.common.jwt.JwtService;
 import com.hello.kurly.config.RestDocsConfig;
 import com.hello.kurly.users.v1.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,9 +36,11 @@ public class RestDocsTest {
   @MockBean
   private UserService userService;
 
+  @MockBean
+  private JwtService jwtService;
+
   @BeforeEach
   void setUp(WebApplicationContext context, RestDocumentationContextProvider provider) {
-
     this.mockMvc = webAppContextSetup(context)
             .apply(documentationConfiguration(provider))
             .alwaysDo(restDocs)
@@ -47,7 +50,6 @@ public class RestDocsTest {
 
   @Test
   void restDocsTest() throws Exception {
-
     mockMvc.perform(get("/"))
            .andExpect(status().isNotFound())
            .andDo(

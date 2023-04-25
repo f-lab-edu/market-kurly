@@ -11,7 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static com.hello.kurly.factory.UsersFactory.*;
+import static com.hello.kurly.factory.UserFactory.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
