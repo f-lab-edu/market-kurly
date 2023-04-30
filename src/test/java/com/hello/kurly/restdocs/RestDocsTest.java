@@ -1,11 +1,14 @@
 package com.hello.kurly.restdocs;
 
+import com.hello.kurly.common.jwt.JwtService;
 import com.hello.kurly.config.RestDocsConfig;
+import com.hello.kurly.users.v1.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
@@ -30,9 +33,14 @@ public class RestDocsTest {
   @Autowired
   protected RestDocumentationResultHandler restDocs;
 
+  @MockBean
+  private UserService userService;
+
+  @MockBean
+  private JwtService jwtService;
+
   @BeforeEach
   void setUp(WebApplicationContext context, RestDocumentationContextProvider provider) {
-
     this.mockMvc = webAppContextSetup(context)
             .apply(documentationConfiguration(provider))
             .alwaysDo(restDocs)
@@ -42,7 +50,6 @@ public class RestDocsTest {
 
   @Test
   void restDocsTest() throws Exception {
-
     mockMvc.perform(get("/"))
            .andExpect(status().isNotFound())
            .andDo(

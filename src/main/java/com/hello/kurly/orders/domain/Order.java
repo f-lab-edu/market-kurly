@@ -1,7 +1,7 @@
 package com.hello.kurly.orders.domain;
 
 import com.hello.kurly.common.model.BaseTimeEntity;
-import com.hello.kurly.users.domain.Users;
+import com.hello.kurly.users.domain.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,7 +25,7 @@ public class Order extends BaseTimeEntity {
 
   @ManyToOne(fetch = LAZY)
   @JoinColumn(name = "user_id")
-  private Users user;
+  private User user;
 
   @OneToOne(fetch = LAZY)
   @JoinColumn(name = "delivery_id", referencedColumnName = "id")
@@ -38,7 +38,7 @@ public class Order extends BaseTimeEntity {
   private OrderType status; //주문상태(주문완료, 주문취소, 주문불가)
 
   public Order(BigInteger id,
-                Users user,
+                User user,
                 Delivery delivery,
                 OrderType status) {
     this.id = id;
