@@ -67,9 +67,10 @@ class UserControllerTest {
     //given
     SignUpRequest request = SignUpRequestFactory.createSignUpRequest();
     ArrayList<AddressResponse> addresses = new ArrayList<>();
-    addresses.add(new AddressResponse("zipCode1",
-                                      "address1",
-                                      "addressDetail"));
+    addresses.add(new AddressResponse(
+            "zipCode1",
+            "address1",
+            "addressDetail"));
     //when
     when(userService.signUp(any()))
             .thenReturn(new UserResponse(
@@ -101,10 +102,11 @@ class UserControllerTest {
                                   fieldWithPath("grade").description("등급"),
                                   fieldWithPath("name").description("회원명"),
                                   fieldWithPath("addresses").description("배송지목록")
-                          ).andWithPrefix("addresses.[].",
-                                          fieldWithPath("zipCode").description("우편번호"),
-                                          fieldWithPath("address").description("기본주소"),
-                                          fieldWithPath("addressDetail").description("상세주소"))
+                          ).andWithPrefix(
+                                  "addresses.[].",
+                                  fieldWithPath("zipCode").description("우편번호"),
+                                  fieldWithPath("address").description("기본주소"),
+                                  fieldWithPath("addressDetail").description("상세주소"))
                   )
            );
   }

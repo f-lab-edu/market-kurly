@@ -27,28 +27,36 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   private final UserService userService;
 
   @Override
-  protected void doFilterInternal(HttpServletRequest request,
-                                  HttpServletResponse response,
-                                  FilterChain filterChain) throws ServletException, IOException {
+  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
     final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
     final String jwt;
     final String nickName;
+
     if (authHeader == null || !authHeader.startsWith("Bearer ")) {
       filterChain.doFilter(request, response);
       return;
     }
+
     jwt = authHeader.split(" ")[1];
     nickName = jwtService.extractNickName(jwt);
-    if (nickName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-      User user = userService.getUser(nickName);
-      if (jwtService.isTokenValid(jwt, user)) {
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user.getNickname(),
-                                                                                                null,
-                                                                                                List.of(new SimpleGrantedAuthority(user.getRole().name())));
-        authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-        SecurityContextHolder.getContext().setAuthentication(authToken);
-      }
+    if (nickName == null || SecurityContextHolder.getContext().getAuthentication() != null) {
+      filterChain.doFilter(request, response);
+      return;
     }
+
+    User user = userService.getUser(nickName);
+    if (!jwtService.isTokenValid(jwt, user)) {
+      filterChain.doFilter(request, response);
+      return;
+    }
+
+    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+            user.getNickname(),
+            null,
+            List.of(new SimpleGrantedAuthority(user.getRole().name())));
+    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+    SecurityContextHolder.getContext().setAuthentication(authToken);
+
     filterChain.doFilter(request, response);
   }
 }
