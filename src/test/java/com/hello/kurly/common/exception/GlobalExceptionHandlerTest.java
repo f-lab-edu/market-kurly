@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -48,7 +49,7 @@ class GlobalExceptionHandlerTest {
   }
 
   @Test
-  @DisplayName("지원하지 않는 http request method이면 오류 응답을 반환한다")
+  @DisplayName("지원하지 않는 http request method 이면 오류 응답을 반환한다")
   void handleHttpRequestMethodNotSupportedException() throws Exception {
     mockMvc.perform(post("/v1/users/{id}", 1)
                             .contentType(MediaType.APPLICATION_JSON)
@@ -60,7 +61,31 @@ class GlobalExceptionHandlerTest {
   }
 
   @Test
+  @DisplayName("인증되지 않은 요청인 경우 오류 응답을 반환한다")
+  void handleAuthenticationException() throws Exception {
+    mockMvc.perform(get("/v1/users/{id}", 1)
+                            .contentType(MediaType.APPLICATION_JSON))
+           .andExpect(status().isUnauthorized())
+           .andExpect(jsonPath("status").value(ErrorCode.UNAUTHORIZED.getStatus()))
+           .andExpect(jsonPath("code").value(ErrorCode.UNAUTHORIZED.getCode()))
+           .andExpect(jsonPath("message").value(ErrorCode.UNAUTHORIZED.getMessage()));
+  }
+
+  @Test
+  @DisplayName("ADMIN 권한이 없으면 오류 응답을 반환한다")
+  @WithMockUser(authorities = "NORMAL")
+  void handle_() throws Exception {
+    mockMvc.perform(get("/v1/users/{id}", 1)
+                            .contentType(MediaType.APPLICATION_JSON))
+           .andExpect(status().isUnauthorized())
+           .andExpect(jsonPath("status").value(ErrorCode.UNAUTHORIZED.getStatus()))
+           .andExpect(jsonPath("code").value(ErrorCode.UNAUTHORIZED.getCode()))
+           .andExpect(jsonPath("message").value(ErrorCode.UNAUTHORIZED.getMessage()));
+  }
+
+  @Test
   @DisplayName("회원 정보가 없으면 오류 응답을 반환한다")
+  @WithMockUser(authorities = "ADMIN")
   void handleBusinessException() throws Exception {
     mockMvc.perform(get("/v1/users/{id}", 1)
                             .contentType(MediaType.APPLICATION_JSON))
