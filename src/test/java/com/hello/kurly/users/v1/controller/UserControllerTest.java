@@ -46,6 +46,9 @@ class UserControllerTest {
   @Autowired
   protected RestDocumentationResultHandler restDocs;
 
+  @Autowired
+  private ObjectMapper objectMapper;
+
   @MockBean
   private UserService userService;
 
@@ -67,21 +70,24 @@ class UserControllerTest {
     //given
     SignUpRequest request = SignUpRequestFactory.createSignUpRequest();
     ArrayList<AddressResponse> addresses = new ArrayList<>();
-    addresses.add(new AddressResponse("zipCode1",
-                                      "address1",
-                                      "addressDetail"));
+    addresses.add(new AddressResponse(
+            "zipCode1",
+            "address1",
+            "addressDetail"));
+
     //when
     when(userService.signUp(any()))
             .thenReturn(new UserResponse(
-                    "nickname1",
+                    "user1",
                     "GENERAL",
-                    "name1",
+                    "user",
                     addresses));
+
     //then
     mockMvc.perform(post("/v1/users/sign-up")
                             .contentType(MediaType.APPLICATION_JSON)
                             .characterEncoding("UTF-8")
-                            .content(new ObjectMapper().writeValueAsString(request)))
+                            .content(objectMapper.writeValueAsString(request)))
            .andExpect(status().isOk())
            .andDo(restDocs.document(
                           requestFields(
@@ -101,10 +107,11 @@ class UserControllerTest {
                                   fieldWithPath("grade").description("등급"),
                                   fieldWithPath("name").description("회원명"),
                                   fieldWithPath("addresses").description("배송지목록")
-                          ).andWithPrefix("addresses.[].",
-                                          fieldWithPath("zipCode").description("우편번호"),
-                                          fieldWithPath("address").description("기본주소"),
-                                          fieldWithPath("addressDetail").description("상세주소"))
+                          ).andWithPrefix(
+                                  "addresses.[].",
+                                  fieldWithPath("zipCode").description("우편번호"),
+                                  fieldWithPath("address").description("기본주소"),
+                                  fieldWithPath("addressDetail").description("상세주소"))
                   )
            );
   }
@@ -114,14 +121,16 @@ class UserControllerTest {
   void signUpFailByNicknameAlreadyExists() throws Exception {
     //given
     SignUpRequest request = SignUpRequestFactory.createSignUpRequest();
+
     //when
     when(userService.signUp(any()))
             .thenThrow(new NicknameAlreadyExistsException());
+
     //then
     mockMvc.perform(post("/v1/users/sign-up")
                             .contentType(MediaType.APPLICATION_JSON)
                             .characterEncoding("UTF-8")
-                            .content(new ObjectMapper().writeValueAsString(request)))
+                            .content(objectMapper.writeValueAsString(request)))
            .andExpect(status().isConflict());
   }
 
@@ -129,16 +138,28 @@ class UserControllerTest {
   @DisplayName("로그인을 성공한다")
   void signIn() throws Exception {
     //given
-    SignInRequest request = new SignInRequest("nickname1", "password1");
+    SignInRequest request = new SignInRequest("user1", "1234");
+
     //when
     when(userService.signIn(any()))
-            .thenReturn(new SignInResponse("accessToken", "refreshToken"));
+            .thenReturn(new SignInResponse("accessToken", null));
+
     //then
     mockMvc.perform(post("/v1/users/sign-in")
                             .contentType(MediaType.APPLICATION_JSON)
                             .characterEncoding("UTF-8")
-                            .content(new ObjectMapper().writeValueAsString(request)))
-           .andExpect(status().isOk());
+                            .content(objectMapper.writeValueAsString(request)))
+           .andExpect(status().isOk())
+            .andDo(restDocs.document(
+                    requestFields(
+                            fieldWithPath("nickname").description("회원아이디"),
+                            fieldWithPath("password").description("비밀번호")
+                    ),
+                    responseFields(
+                            fieldWithPath("accessToken").description("AccessToken"),
+                            fieldWithPath("refreshToken").description("RefreshToken")
+                    )
+            ));
   }
 
   @Test
@@ -146,14 +167,16 @@ class UserControllerTest {
   void signInFailByUserNotFound() throws Exception {
     //given
     SignInRequest request = new SignInRequest("nickname1", "password1");
+
     //when
     when(userService.signIn(any()))
             .thenThrow(new UserNotFoundException());
+
     //then
     mockMvc.perform(post("/v1/users/sign-in")
                             .contentType(MediaType.APPLICATION_JSON)
                             .characterEncoding("UTF-8")
-                            .content(new ObjectMapper().writeValueAsString(request)))
+                            .content(objectMapper.writeValueAsString(request)))
            .andExpect(status().isBadRequest());
   }
 
@@ -162,14 +185,16 @@ class UserControllerTest {
   void signInFailByInvalidPassword() throws Exception {
     //given
     SignInRequest request = new SignInRequest("nickname1", "password1");
+
     //when
     when(userService.signIn(any()))
             .thenThrow(new InvalidPasswordException());
+
     //then
     mockMvc.perform(post("/v1/users/sign-in")
                             .contentType(MediaType.APPLICATION_JSON)
                             .characterEncoding("UTF-8")
-                            .content(new ObjectMapper().writeValueAsString(request)))
+                            .content(objectMapper.writeValueAsString(request)))
            .andExpect(status().isUnauthorized());
   }
 

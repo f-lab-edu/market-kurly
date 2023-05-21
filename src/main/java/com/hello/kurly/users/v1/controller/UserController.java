@@ -3,6 +3,7 @@ package com.hello.kurly.users.v1.controller;
 import com.hello.kurly.users.v1.dto.*;
 import com.hello.kurly.users.v1.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,7 @@ public class UserController {
   }
 
   @GetMapping("/{id}")
+  @PreAuthorize("hasAuthority('ADMIN')")
   public UserResponse getUser(@PathVariable Long id) {
     return userService.getUser(id);
   }

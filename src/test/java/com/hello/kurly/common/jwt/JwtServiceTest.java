@@ -18,8 +18,10 @@ class JwtServiceTest {
   void generateSecretKey() {
     SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     System.out.println("secretKey = " + secretKey);
+
     String base64EncodedSecretKey = Encoders.BASE64.encode(secretKey.getEncoded());
     System.out.println("base64EncodedSecretKey = " + base64EncodedSecretKey);
+
     SecretKey base64DecodedSecretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(base64EncodedSecretKey));
     assertThat(base64DecodedSecretKey).isEqualTo(secretKey);
   }

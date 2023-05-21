@@ -3,6 +3,8 @@ package com.hello.kurly.common.exception;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -24,6 +26,20 @@ public class GlobalExceptionHandler {
     log.error("handleHttpRequestMethodNotSupportedException", e);
     ErrorResponse response = ErrorResponse.of(ErrorCode.METHOD_NOT_ALLOWED);
     return new ResponseEntity<>(response, HttpStatus.METHOD_NOT_ALLOWED);
+  }
+
+  @ExceptionHandler(AuthenticationException.class)
+  ResponseEntity<ErrorResponse> handleAuthenticationException(AuthenticationException e) {
+    log.error("handleAuthenticationException", e);
+    ErrorResponse response = ErrorResponse.of(ErrorCode.UNAUTHORIZED);
+    return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+  }
+
+  @ExceptionHandler(AccessDeniedException.class)
+  ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException e) {
+    log.error("handleAccessDeniedHandler", e);
+    ErrorResponse response = ErrorResponse.of(ErrorCode.UNAUTHORIZED);
+    return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
   }
 
   @ExceptionHandler(BusinessException.class)
