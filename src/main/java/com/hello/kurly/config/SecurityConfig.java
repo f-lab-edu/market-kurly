@@ -48,6 +48,6 @@ public class SecurityConfig {
 
   @Bean
   public WebSecurityCustomizer webSecurityCustomizer() {
-    return (web) -> web.ignoring().antMatchers("/docs/**");
+    return (web) -> web.ignoring().antMatchers("/docs/**", "/h2-console/**");
   }
 }
